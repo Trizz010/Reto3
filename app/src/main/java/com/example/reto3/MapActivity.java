@@ -23,6 +23,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
 
 public class MapActivity extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
@@ -31,6 +32,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
     private IMapController mapController;
     private Button btn;
     private Double latitud, longitud;
+    Polygon polygon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         mapController.setZoom(20.00);
         GeoPoint startPoint = new GeoPoint(20.6133105, -100.4052627); //Hardcoded to Queretaro
         mapController.setCenter(startPoint);
+        polygon = new Polygon();
 
         btn = findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +89,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener {
         longitud = location.getLongitude();
         GeoPoint point = new GeoPoint(latitud,longitud);
         mapController.setCenter(point);
+        polygon.addPoint(point);
+        map.getOverlays().add(polygon);
         Marker marker = new Marker(map);
         marker.setPosition(point);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
